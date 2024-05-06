@@ -546,8 +546,10 @@ section .noi-dung .form .icon-dang-nhap li i{
 }
 .login-box{
     float: right;
-    width: 120px;
+
     margin-left: 20px;
+    display: flex;
+    gap: 1rem;
 }
 
 .login-box .form-control{
@@ -593,7 +595,7 @@ section .noi-dung .form .icon-dang-nhap li i{
  .main-header{
 }
  .search a{
-     color: #b0b435;
+     color: #f11b1b;
 }
  .attr-nav > ul > li > a:hover{
      color: #b0b435;
@@ -622,6 +624,14 @@ section .noi-dung .form .icon-dang-nhap li i{
     }
      nav.navbar .navbar-brand{
          margin-top: 0;
+         font-weight: 700;
+         font-size: 16px;
+         color: #ea2525;
+         text-transform: uppercase;
+         padding-top: 10px;
+         padding-bottom: 10px;
+         padding-left: 10px;
+         padding-right: 30px;
     }
      nav.navbar .navbar-brand{
          margin-top: 0;
@@ -793,7 +803,7 @@ section .noi-dung .form .icon-dang-nhap li i{
      padding-right: 30px;
 }
  nav.navbar.bootsnav ul.nav li.active > a{
-     color: #b0b435;
+     color: #ea1414;
 }
  nav.navbar.bootsnav ul.nav li.active > a:hover{
      color: #b0b435;
@@ -2895,8 +2905,26 @@ section .noi-dung .form .icon-dang-nhap li i{
 	padding: 12px 25px;
 	border: none;
 }
+.attr-nav2{
+    display: flex;
+    gap: 2rem;
+}
+.attr-nav2 ul {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
 
+.btn-outline-success{
+    color: white;
+    font-weight: 700;
+}
 
+.input-container{
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
 
 
 

@@ -46,7 +46,7 @@
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="our-link">
                     <ul>
-                        <li><a href="#"> Call US : +84967631186</a></li>
+                        <li><a href="#"> Call US : 0975080902</a></li>
                         <li><a href="#"><i class="fas fa-location-arrow"></i> Address: Km9, Nguyen Trai, Thanh Xuan,
                             Ha Noi</a></li>
                     </ul>
@@ -59,8 +59,8 @@
 <!--                        <option th:if = "${session.username == null}" value = "http://localhost:8889/shop/login">Sign In </option>-->
 <!--                        <option th:if = "${session.username == null}" value ="http://localhost:8889/shop/register">Sign Up</option>-->
 <!--                    </select>-->
-                    <button onclick="location.href='http://localhost:8020/shop/login'">Sign In</button>
-                    <button onclick="location.href='http://localhost:8020/shop/register'">Sign Up</button>
+                    <button class="btn btn-outline-success" onclick="location.href='http://localhost:8020/shop/login'">Sign In</button>
+                    <button class="btn btn-outline-success" onclick="location.href='http://localhost:8020/shop/register'">Sign Up</button>
                 </div>
                 <div class="text-slid-box">
                     <div id="offer-box" class="carouselTicker">
@@ -109,8 +109,12 @@
                         aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" th:href="@{/}"><img th:src="@{/images/logo.png}" class="logo" width="130"
-                                                            height="80" alt=""></a>
+
+                <a class="navbar-brand" th:href="@{/}">
+                    <img th:src="@{/images/logo.png}" class="logo" width="140"
+                                                            height="80" margin-right="1rem" alt="">
+                    Kitsune Shop
+                </a>
             </div>
             <!-- End Header Navigation -->
 
@@ -121,7 +125,10 @@
                     <li class="nav-item"><a class="nav-link" th:href="@{/menu}">Menu</a></li>
 
                     <li class="dropdown">
-                        <a href="#" class="nav-link dropdown-toggle arrow" data-toggle="dropdown">Shop</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                            Shop
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
                         <ul class="dropdown-menu">
                             <li><a th:href="@{/shop-detail}">Shop Detail</a></li>
                             <li><a th:href="@{/orders}">Your order</a></li>
@@ -135,8 +142,14 @@
 
             <!-- Start Atribute Navigation -->
             <div class="attr-nav2">
-                <ul>
-                    <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
+                    <form th:action="@{/search-product}" method="get">
+                        <div class="input-container">
+                        <input class="form-control" name="keyword" placeholder="Search here..." type="text">
+                        <button type="submit"><i class="fa fa-search"></i></button>
+                        </div>
+
+                    </form>
+                <ul >
                     <li class="side-menu">
                         <a href="#" th:href="@{/cart}">
                             <i class="fa fa-shopping-bag"></i>
