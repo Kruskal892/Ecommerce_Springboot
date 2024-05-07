@@ -29,7 +29,7 @@
                 <div th:if = "${error}">
                     <p class = "alert alert-danger" th:text = "${error}"></p>
                 </div>
-                <form th:action = "@{/do-register}" method="POST" th:object = "${customerDto}">
+                <form th:action = "@{/register}" method="post" th:object = "${customerDto}">
                     <div class="input-form">
                         <div class="input-form">
                             <input type="text" placeholder="First Name" name="firstname" th:field = "*{firstName}" required>
