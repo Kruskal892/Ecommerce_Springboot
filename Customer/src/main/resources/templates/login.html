@@ -30,6 +30,9 @@
         <div class="noi-dung">
             <div class="form">
                 <h2>Log In</h2>
+                <div th:if = "${success}">
+                    <p class = "alert alert-success" th:text = "${success}"></p>
+                </div>
                 <div th:if = "${param.error}" class="alert alert-danger text-center">
                     Invalid username or password
                 </div>
