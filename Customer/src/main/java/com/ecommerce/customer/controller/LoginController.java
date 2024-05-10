@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -34,10 +35,11 @@ public class LoginController {
     }
 
 
-    @PostMapping("/do-register")
+    @PostMapping("/register")
     public String registerCustomer(@Valid @ModelAttribute("customerDto") CustomerDto customerDto,
                                    BindingResult result,
-                                   Model model) {
+                                   Model model,
+                                   RedirectAttributes redirectAttributes) {
         try {
             if (result.hasErrors()) {
                 model.addAttribute("customerDto", customerDto);
@@ -53,7 +55,7 @@ public class LoginController {
             if (customerDto.getPassword().equals(customerDto.getConfirmPassword())) {
                 customerDto.setPassword(passwordEncoder.encode(customerDto.getPassword()));
                 customerService.save(customerDto);
-                model.addAttribute("success", "Register successfully!");
+                redirectAttributes.addFlashAttribute("success", "Register successfully!");
             } else {
                 model.addAttribute("error", "Password is incorrect");
                 model.addAttribute("customerDto", customerDto);
@@ -63,7 +65,7 @@ public class LoginController {
             e.printStackTrace();
             model.addAttribute("error", "Server is error, try again later!");
         }
-        return "register";
+        return "redirect:/login";
     }
 
 
