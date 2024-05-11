@@ -27,7 +27,8 @@ public class Customer {
     private String password;
     private String phoneNumber;
     private String address;
-
+    private boolean is_deleted;
+    private boolean is_activated;
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "name", referencedColumnName = "id")
     private City city;
@@ -66,4 +67,6 @@ public class Customer {
                 ", orders=" + orders.size() +
                 '}';
     }
+
+
 }

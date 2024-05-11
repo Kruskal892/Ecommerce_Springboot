@@ -6,13 +6,48 @@ import com.ecommerce.library.repository.CustomerRepository;
 import com.ecommerce.library.repository.RoleRepository;
 import com.ecommerce.library.service.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
+    @Override
+    public List<CustomerDto> customers() {
+        return transferData(customerRepository.getAllBCustomer());
+    }
+
+    @Override
+    public List<CustomerDto> allCustomers() {
+        List<Customer> customer = customerRepository.findAll();
+        List<CustomerDto> customerDtos = transferData(customer);
+        return customerDtos;
+    }
+
+
+    @Override
+    public Page<CustomerDto> getAllCustomer(int pageNo) {
+        Pageable pageable = PageRequest.of(pageNo, 6);
+        List<CustomerDto> customerDtoList = this.allCustomers();
+        Page<CustomerDto> customerDtoPage = toPage(customerDtoList, pageable);
+        return customerDtoPage;
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        Customer customer = customerRepository.getById(id);
+        customer.set_deleted(true);
+        customer.set_activated(false);
+        customerRepository.save(customer);
+    }
+
     private final CustomerRepository customerRepository;
     private final RoleRepository roleRepository;
 
@@ -62,6 +97,38 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setCountry(dto.getCountry());
         customer.setPhoneNumber(dto.getPhoneNumber());
         return customerRepository.save(customer);
+    }
+
+    public List<CustomerDto> listViewProducts() {
+        return transferData(customerRepository.listViewCustomer());
+    }
+
+
+    private Page toPage(List list, Pageable pageable) {
+        if (pageable.getOffset() >= list.size()) {
+            return Page.empty();
+        }
+        int startIndex = (int) pageable.getOffset();
+        int endIndex = ((pageable.getOffset() + pageable.getPageSize()) > list.size())
+                ? list.size()
+                : (int) (pageable.getOffset() + pageable.getPageSize());
+        List subList = list.subList(startIndex, endIndex);
+        return new PageImpl(subList, pageable, list.size());
+    }
+
+    private List<CustomerDto> transferData(List<Customer> customers) {
+        List<CustomerDto> customerDtos = new ArrayList<>();
+        for (Customer customer : customers) {
+            CustomerDto customerDto = new CustomerDto();
+            customerDto.setId(customer.getId());
+            customerDto.setFirstName(customer.getFirstName());
+            customerDto.setLastName(customer.getFirstName());
+            customerDto.setAddress(customer.getAddress());
+            customerDto.setActivated(customer.is_activated());
+            customerDto.setDeleted(customer.is_deleted());
+            customerDtos.add(customerDto);
+        }
+        return customerDtos;
     }
 
 }

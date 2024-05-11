@@ -15,6 +15,7 @@ public class CustomerDto {
 
     @Size(min = 3, max = 10, message = "Last name contains 3-10 characters")
     private String lastName;
+
     private String username;
     @Size(min = 3, max = 15, message = "Password contains 3-10 characters")
     private String password;
@@ -27,5 +28,7 @@ public class CustomerDto {
     private City city;
     private String image;
     private String country;
-
+    private boolean deleted;
+    private boolean activated;
+    private Long id;
 }
