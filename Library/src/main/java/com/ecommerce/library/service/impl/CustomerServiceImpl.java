@@ -2,6 +2,7 @@ package com.ecommerce.library.service.impl;
 
 import com.ecommerce.library.dto.CustomerDto;
 import com.ecommerce.library.model.Customer;
+import com.ecommerce.library.model.Role;
 import com.ecommerce.library.repository.CustomerRepository;
 import com.ecommerce.library.repository.RoleRepository;
 import com.ecommerce.library.service.CustomerService;
@@ -12,9 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -39,14 +38,26 @@ public class CustomerServiceImpl implements CustomerService {
         Page<CustomerDto> customerDtoPage = toPage(customerDtoList, pageable);
         return customerDtoPage;
     }
-
     @Override
     public void deleteById(Long id) {
-        Customer customer = customerRepository.getById(id);
-        customer.set_deleted(true);
-        customer.set_activated(false);
-        customerRepository.save(customer);
+        // Check if the user exists
+        Optional<Customer> userOptional = customerRepository.findById(id);
+        if (userOptional.isPresent()) {
+            // If the user exists, remove their roles
+            Customer user = userOptional.get();
+            user.getRoles().clear(); // Clear all roles
+
+            // Save the user without roles
+            customerRepository.save(user);
+
+            // Now you can safely delete the user
+            customerRepository.deleteById(id);
+        } else {
+            // Handle case where user with given id doesn't exist
+            // You can throw an exception or handle it based on your application's logic
+        }
     }
+
 
     private final CustomerRepository customerRepository;
     private final RoleRepository roleRepository;
@@ -57,6 +68,8 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setFirstName(customerDto.getFirstName());
         customer.setLastName(customerDto.getLastName());
         customer.setPassword(customerDto.getPassword());
+        customer.setUsername(customerDto.getUsername());
+        customer.setPhoneNumber(customerDto.getPhoneNumber());
         customer.setUsername(customerDto.getUsername());
         customer.setRoles(Arrays.asList(roleRepository.findByName("CUSTOMER")));
         return customerRepository.save(customer);
@@ -99,10 +112,6 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.save(customer);
     }
 
-    public List<CustomerDto> listViewProducts() {
-        return transferData(customerRepository.listViewCustomer());
-    }
-
 
     private Page toPage(List list, Pageable pageable) {
         if (pageable.getOffset() >= list.size()) {
@@ -122,10 +131,9 @@ public class CustomerServiceImpl implements CustomerService {
             CustomerDto customerDto = new CustomerDto();
             customerDto.setId(customer.getId());
             customerDto.setFirstName(customer.getFirstName());
-            customerDto.setLastName(customer.getFirstName());
+            customerDto.setLastName(customer.getLastName());
             customerDto.setAddress(customer.getAddress());
-            customerDto.setActivated(customer.is_activated());
-            customerDto.setDeleted(customer.is_deleted());
+            customerDto.setUsername(customer.getUsername());
             customerDtos.add(customerDto);
         }
         return customerDtos;

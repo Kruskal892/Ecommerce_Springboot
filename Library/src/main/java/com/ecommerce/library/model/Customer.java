@@ -48,6 +48,8 @@ public class Customer {
         this.country = "VN";
         this.cart = new ShoppingCart();
         this.orders = new ArrayList<>();
+        this.is_deleted = false;
+        this.is_activated = true;
     }
 
     @Override
