@@ -15,9 +15,17 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
     private Long id;
+
     private String name;
-    @Column(name = "is_activated")
+
+    @Column(name = "is_activated", columnDefinition = "boolean default true") // Specify default value here
     private boolean activated;
-    @Column(name = "is_deleted")
+
+    @Column(name = "is_deleted",  columnDefinition = "boolean default false")
     private boolean deleted;
+
+    public Category(String name) {
+        this.name = name;
+        this.activated = true;
+    }
 }

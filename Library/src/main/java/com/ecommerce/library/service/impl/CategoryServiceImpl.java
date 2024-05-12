@@ -17,12 +17,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category save(Category category) {
-        Category categorySave = new Category();
-        categorySave.setName(category.getName());
-        categorySave.setActivated(true);
-        categorySave.setDeleted(false);
-        return categoryRepository.save(categorySave);
-
+        // No need to create a new instance of Category, use the provided one
+        return categoryRepository.save(category);
     }
 
     @Override
